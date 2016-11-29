@@ -36,24 +36,26 @@ bool j1Scene::Start()
 	{
 		int w, h;
 		uchar* data = NULL;
-		if(App->map->CreateWalkabilityMap(w, h, &data))
-			App->pathfinding->SetMap(w, h, data);
-
+		if(App->map->CreateWalkabilityMap(w,h,&data))
+			App->pathfinding->SetMap(w,h,data);
 		RELEASE_ARRAY(data);
 	}
-
 	debug_tex = App->tex->Load("maps/path2.png");
 	
 	Window* screen = (Window*)App->gui->Create_Element(WINDOW);
+
 	Label* win1_title = (Label*)App->gui->Create_Element(LABEL);
-	//win1_title->text = "Window";
+	win1_title->Set({ 200,200,200,200 }, App->font->default);
+
 	Label* button1_title = (Label*)App->gui->Create_Element(LABEL);
-	//button1_title->text = "Button1";
+
 	Button* button1 = (Button*)App->gui->Create_Element(BUTTON);
-	button1->rect = {};
+	button1->rect = {};//idle one
+
 	Window* win1 = (Window*)App->gui->Create_Element(WINDOW);
-	win1->rect = { 18,531,448,474 };
+	win1->Set({18,531,448,474},App->gui->GetAtlas());
 	
+	//tree of GUI
 	button1_title->parent = button1;
 
 	button1->linked_elements.add(button1_title);
@@ -65,14 +67,7 @@ bool j1Scene::Start()
 	win1->parent = screen;
 
 	screen->linked_elements.add(win1);
-	screen->parent = nullptr;//way to know the tree parent node
-
-
-
-	
-	
-	// TODO 3: Create the image (rect {485, 829, 328, 103}) and the text "Hello World" as UI elements
-
+	screen->parent = nullptr;//way to know the tree parent node	
 
 	return true;
 }
@@ -111,41 +106,15 @@ bool j1Scene::PreUpdate()
 bool j1Scene::Update(float dt)
 {
 	// Gui ---
-	
-
 	/*
-	if(label.IsOnTop())
-	{
-		if(label.rightclicked())
-			label.text= "Hello World - Right click";
-		else if(label.leftclicked())
-			label.text= "Hello World - Left click";
-		else
-			label.text= "Mouse is hovering";			
-	}
-
-	if(button.IsOnTop())
-	{
-		if(button.RightClicked())
-			{
-				button.highlighted=false
-				button.clicked= true;
-			}
-			else if(button.leftClicked())
-			{
-				button.highlighted=false
-				button.clicked=true;
-			}
-			else 
-			{
-				button.clicked = false;
-				button.highlighted=true;
-			}
-		}
-		else
-			button.clicked=false;
-	}
+		Button
+			1. if leftclicked change the texture
+			2. if also moves, move him and his childs
+		Window
+			2.move its parents when use the mouse
 	*/
+
+	
 	// -------
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 		App->LoadGame("save_game.xml");
@@ -212,6 +181,7 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
-
+	for(int i=0;i<App->gui->elements.Count();i++)
+		App->gui->Destroy_Element(i);
 	return true;
 }

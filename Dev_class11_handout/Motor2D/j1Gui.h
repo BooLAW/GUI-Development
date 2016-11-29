@@ -29,29 +29,46 @@ public:
 class Interactive_element : public UI_Element
 {
 public:
-	bool highlighted;
-	bool clicked;
+	bool hovering;
+	bool r_clicked;
+	bool l_clicked;
 	uint tab_id;
 	bool moving;
 public:
+
+	void Handle_Input();
 	bool RightClicked() ;
 	bool LeftClicked();
 	bool IsOnTop() ;
 };
 
-class Window : public UI_Element
+class Window : public Interactive_element
 {
 public:
-	void Update() {};
-	void Draw() 
+	void Set(SDL_Rect _rect, SDL_Texture* _IdleTex)
 	{
-		SDL_blit();
-	};
+		rect.x = _rect.x;
+		rect.y = _rect.y;
+		rect.w = _rect.w;
+		rect.y = _rect.h;
+		texture = _IdleTex;
+	}
+	void Update() {};
+	void Draw() {};
+	void Handle_Input() {};
 };
 
 class Button : public  Interactive_element
 {
 private:
+	void Set(SDL_Rect _rect,SDL_Texture* _IdleTex) 
+	{
+		rect.x = _rect.x;
+		rect.y = _rect.y;
+		rect.w = _rect.w;
+		rect.y = _rect.h;
+		texture = _IdleTex;
+	}
 	void Draw() {};
 	void Update() {};
 	void Handle_Input() {};
@@ -59,8 +76,24 @@ private:
 class Label : public  Interactive_element
 {
 public:
-	_TTF_Font* text;
+	_TTF_Font* text_font;
+	p2SString text;
 	uint bar_pos;
+public:
+	void Set(SDL_Rect _rect, _TTF_Font* _font)
+	{
+		rect.x = _rect.x;
+		rect.y = _rect.y;
+		rect.w = _rect.w;
+		rect.y = _rect.h;
+		text_font = _font;
+	}
+	void Change_Text(p2SString _text)
+	{
+		char* tmp = new char[_text.Length() + 1];
+		strcpy_s(tmp, _text.Length() + 1, _text.GetString());
+		text = tmp;
+	}
 private:
 	void Draw() {};
 	void Update() {};
@@ -98,7 +131,7 @@ public:
 	UI_Element* Destroy_Element(uint id);
 
 	// Gui creation functions
-	const SDL_Texture* GetAtlas() const;
+	SDL_Texture* GetAtlas() const;
 	p2DynArray<UI_Element*> elements;
 private:
 

@@ -57,7 +57,7 @@ bool j1Gui::CleanUp()
 }
 
 // const getter for atlas
-const SDL_Texture* j1Gui::GetAtlas() const
+ SDL_Texture* j1Gui::GetAtlas() const
 {
 	return atlas;
 }
@@ -74,18 +74,22 @@ UI_Element* j1Gui::Create_Element(TYPE mytype)
 UI_Element* j1Gui::Destroy_Element(uint id)
 {
 	UI_Element* ret = nullptr;
+	/*
 	if (id >= elements.Count())
 	{
 		 ret = elements[id];
 		delete elements[id];
-	}
+	}*/
 	return ret;
 }
-//
+
+//---Interactive_element functions----------------
+
 bool Interactive_element::IsOnTop()
 {
 	bool ret = false;
 	iPoint mouse;
+	App->input->GetMousePosition(mouse.x, mouse.y);
 	if ((mouse.y > rect.y) && (mouse.x > rect.x) && (mouse.x < rect.x + rect.w) && (mouse.y < rect.y + rect.h))
 		ret = true;
 	else
@@ -98,8 +102,50 @@ bool Interactive_element::RightClicked()
 {
 	bool ret = false;
 	if (IsOnTop() && App->input->GetMouseButtonDown(RI_MOUSE_RIGHT_BUTTON_DOWN));
-	{
-
-	}
+		ret = true;
 	return ret;
+}
+
+bool Interactive_element::LeftClicked()
+{
+	bool ret = false;
+	if (IsOnTop() && App->input->GetMouseButtonDown(RI_MOUSE_LEFT_BUTTON_DOWN)==true);
+		ret = true;
+	return ret;
+}
+
+void Interactive_element::Handle_Input()
+{
+	if (RightClicked())
+	{
+		r_clicked = true;
+		l_clicked = false;
+		hovering = false;
+	}
+	else if (LeftClicked())
+	{
+		r_clicked = false;
+		l_clicked = true;
+		hovering = false;
+	}
+	else if (IsOnTop())
+	{
+		r_clicked = false;
+		l_clicked = false;
+		hovering = true;
+	}
+	else
+	{
+		r_clicked = false;
+		l_clicked = false;
+		hovering = false;
+	}
+}
+
+//---Updates-------------------
+
+void Label::Update()
+{
+	SDL_Texture* L = App->font->Print(text, {255,255,255}, text_font);
+
 }
