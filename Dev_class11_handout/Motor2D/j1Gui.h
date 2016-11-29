@@ -4,26 +4,27 @@
 #include "j1Module.h"
 #include "p2SString.h"
 #include "p2DynArray.h"
+#include "j1Fonts.h"
 #define CURSOR_WIDTH 2
 
-enum TYPE{BACKGROUND,BUTTON,TEXTBOX};
+enum TYPE{BACKGROUND,BUTTON,LABEL,WINDOW};
 // TODO 1: Create your structure of classes
 class UI_Element
 {
 public:
 	SDL_Rect rect;
 	uint id;
-	enum TYPE;
-protected:	
+	TYPE type;
+	SDL_Texture* texture;
+	bool debug_mode;
+	UI_Element* parent;
+	p2List<UI_Element*> linked_elements;
+public:	
 	virtual void Update() {};
 	virtual void Draw() {};
 	virtual void Handle_Input() {};
 };
 
-class Texture : public UI_Element
-{
-	SDL_Texture* tex;
-};
 
 class Interactive_element : public UI_Element
 {
@@ -31,14 +32,16 @@ public:
 	bool highlighted;
 	bool clicked;
 	uint tab_id;
+	bool moving;
 public:
-	bool IsClicked() ;
+	bool RightClicked() ;
+	bool LeftClicked();
 	bool IsOnTop() ;
 };
 
-class Background : public Texture
+class Window : public UI_Element
 {
-private:
+public:
 	void Update() {};
 	void Draw() 
 	{
@@ -46,18 +49,18 @@ private:
 	};
 };
 
-class Button : public Texture, Interactive_element
+class Button : public  Interactive_element
 {
 private:
 	void Draw() {};
 	void Update() {};
 	void Handle_Input() {};
 };
-class Label : public Texture, Interactive_element
+class Label : public  Interactive_element
 {
-	p2SString text;
+public:
+	_TTF_Font* text;
 	uint bar_pos;
-
 private:
 	void Draw() {};
 	void Update() {};
@@ -100,7 +103,10 @@ public:
 private:
 
 	SDL_Texture* atlas;
+	SDL_Texture* background;
+	
 	p2SString atlas_file_name;
+	p2SString background_file_name;
 
 };
 

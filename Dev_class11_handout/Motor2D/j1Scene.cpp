@@ -43,7 +43,34 @@ bool j1Scene::Start()
 	}
 
 	debug_tex = App->tex->Load("maps/path2.png");
+	
+	Window* screen = (Window*)App->gui->Create_Element(WINDOW);
+	Label* win1_title = (Label*)App->gui->Create_Element(LABEL);
+	//win1_title->text = "Window";
+	Label* button1_title = (Label*)App->gui->Create_Element(LABEL);
+	//button1_title->text = "Button1";
+	Button* button1 = (Button*)App->gui->Create_Element(BUTTON);
+	button1->rect = {};
+	Window* win1 = (Window*)App->gui->Create_Element(WINDOW);
+	win1->rect = { 18,531,448,474 };
+	
+	button1_title->parent = button1;
 
+	button1->linked_elements.add(button1_title);
+	button1->parent = win1;
+
+	win1_title->parent = win1;
+
+	win1->linked_elements.add(button1);
+	win1->parent = screen;
+
+	screen->linked_elements.add(win1);
+	screen->parent = nullptr;//way to know the tree parent node
+
+
+
+	
+	
 	// TODO 3: Create the image (rect {485, 829, 328, 103}) and the text "Hello World" as UI elements
 
 
@@ -119,7 +146,6 @@ bool j1Scene::Update(float dt)
 			button.clicked=false;
 	}
 	*/
-
 	// -------
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 		App->LoadGame("save_game.xml");
@@ -168,7 +194,6 @@ bool j1Scene::Update(float dt)
 		iPoint pos = App->map->MapToWorld(path->At(i)->x, path->At(i)->y);
 		App->render->Blit(debug_tex, pos.x, pos.y);
 	}
-
 	return true;
 }
 

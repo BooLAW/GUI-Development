@@ -16,6 +16,7 @@
 
   <gui>
     <atlas file="gui/atlas.png"/>
+    <background file="gui/background.png"/>
   </gui>
     
   <window>
