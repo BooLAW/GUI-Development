@@ -68,18 +68,20 @@ bool j1Gui::CleanUp()
 UI_Element* j1Gui::Create_Element(TYPE mytype)
 {
 	UI_Element* ret = new UI_Element();
+	elements.PushBack(ret);
 	ret->type = mytype;
 	return ret;
 }
 UI_Element* j1Gui::Destroy_Element(uint id)
 {
 	UI_Element* ret = nullptr;
-	/*
-	if (id >= elements.Count())
-	{
-		 ret = elements[id];
-		delete elements[id];
-	}*/
+	
+	//if (id >= elements.Count())
+	//{
+	//	
+	//	 ret = elements[id];
+	//	 elements.Pop(elements[id]);
+	//}
 	return ret;
 }
 
@@ -146,6 +148,6 @@ void Interactive_element::Handle_Input()
 
 void Label::Update()
 {
-	SDL_Texture* L = App->font->Print(text, {255,255,255}, text_font);
-
+	SDL_Texture* L = App->font->Print(text.GetString(), {255,255,255}, text_font);
+	App->render->Blit(L, 200, 300, &rect);
 }

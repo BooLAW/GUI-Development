@@ -15,14 +15,17 @@ public:
 	SDL_Rect rect;
 	uint id;
 	TYPE type;
+	iPoint pos;
 	SDL_Texture* texture;
 	bool debug_mode;
 	UI_Element* parent;
 	p2List<UI_Element*> linked_elements;
-public:	
-	virtual void Update() {};
-	virtual void Draw() {};
-	virtual void Handle_Input() {};
+public: 
+	UI_Element(TYPE _type, iPoint _pos, SDL_Rect _rect, SDL_Texture* _texture) :type(_type), pos(_pos), rect(_rect), texture(_texture) {
+	};
+	virtual void Update() ;
+	virtual void Draw() ;
+	virtual void Handle_Input() ;
 };
 
 
@@ -35,7 +38,7 @@ public:
 	uint tab_id;
 	bool moving;
 public:
-
+	Interactive_element() {};
 	void Handle_Input();
 	bool RightClicked() ;
 	bool LeftClicked();
@@ -53,9 +56,9 @@ public:
 		rect.y = _rect.h;
 		texture = _IdleTex;
 	}
-	void Update() {};
-	void Draw() {};
-	void Handle_Input() {};
+	void Update() ;
+	void Draw() ;
+	void Handle_Input() ;
 };
 
 class Button : public  Interactive_element
@@ -69,9 +72,9 @@ private:
 		rect.y = _rect.h;
 		texture = _IdleTex;
 	}
-	void Draw() {};
-	void Update() {};
-	void Handle_Input() {};
+	void Draw() ;
+	void Update() ;
+	void Handle_Input() ;
 };
 class Label : public  Interactive_element
 {
@@ -95,9 +98,9 @@ public:
 		text = tmp;
 	}
 private:
-	void Draw() {};
-	void Update() {};
-	void Handle_Input() {};
+	void Draw() ;
+	void Update() ;
+	void Handle_Input() ;
 
 		
 };
