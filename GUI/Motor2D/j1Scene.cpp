@@ -40,23 +40,21 @@ bool j1Scene::Start()
 			App->pathfinding->SetMap(w,h,data);
 		RELEASE_ARRAY(data);
 	}
+	
 	debug_tex = App->tex->Load("maps/path2.png");
 	
-	Window* screen = (Window*)App->gui->Create_Element(WINDOW);
+	UI_Window* screen = (UI_Window*)App->gui->Create_Element(WINDOW, { 0,0 }, {0,0,640,480}, App->gui->GetBackground(),NULL,false,nullptr,NULL);
 
-	Label* win1_title = (Label*)App->gui->Create_Element(LABEL);
-	win1_title->Set({ 200,200,200,200 }, App->font->default);
+	//UI_Label* win1_title = (UI_Label*)App->gui->Create_Element();
 
-	Label* button1_title = (Label*)App->gui->Create_Element(LABEL);
+//	UI_Label* button1_title = (UI_Label*)App->gui->Create_Element();
 
-	Button* button1 = (Button*)App->gui->Create_Element(BUTTON);
-	button1->rect = {};//idle one
+	//UI_Button* button1 = (UI_Button*)App->gui->Create_Element(BUTTON);
 
-	Window* win1 = (Window*)App->gui->Create_Element(WINDOW);
-	win1->Set({18,531,448,474},App->gui->GetAtlas());
+	//UI_Window* win1 = (UI_Window*)App->gui->Create_Element(WINDOW);
 	
 	//tree of GUI
-	button1_title->parent = button1;
+	/*button1_title->parent = button1;
 
 	button1->linked_elements.add(button1_title);
 	button1->parent = win1;
@@ -64,10 +62,10 @@ bool j1Scene::Start()
 	win1_title->parent = win1;
 
 	win1->linked_elements.add(button1);
-	win1->parent = screen;
+	win1->parent = screen;*/
 
-	screen->linked_elements.add(win1);
-	screen->parent = nullptr;//way to know the tree parent node	
+	//screen->linked_elements.add(win1);
+	//screen->parent = nullptr;//way to know the tree parent node	
 
 	return true;
 }

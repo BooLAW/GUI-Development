@@ -61,16 +61,45 @@ bool j1Gui::CleanUp()
 {
 	return atlas;
 }
+ SDL_Texture* j1Gui::GetBackground() const
+ {
+	 return background;
+ }
 
 // class Gui ---------------------------------------------------
 
 //----MANAGER----
-UI_Element* j1Gui::Create_Element(TYPE mytype)
+UI_Element* j1Gui::Create_Element(TYPE _type, iPoint _pos, SDL_Rect _rect, SDL_Texture* _texture, uint _tab_id, bool _active, char* _text, _TTF_Font* _text_font)
 {
-	UI_Element* ret = new UI_Element();
-	elements.PushBack(ret);
-	ret->type = mytype;
-	return ret;
+	if (_type == BUTTON)
+	{
+		UI_Button* ret = new UI_Button(_type, _pos, _rect, _texture, _tab_id, _active);
+		elements.PushBack(ret);
+		return ret;
+	}
+	else if (_type == WINDOW)
+	{
+		UI_Window* ret = new UI_Window(_type, _pos, _rect, _texture,_tab_id,_active);
+		elements.PushBack(ret);
+		return ret;
+	}
+	else if (_type == BACKGROUND)
+	{
+		UI_Background* ret = new UI_Background(_type, _pos, _rect, _texture);
+		elements.PushBack(ret);
+		return ret;
+	}
+	else if (_type == LABEL)
+	{
+		UI_Label* ret = new UI_Label(_type, _pos, _rect, _texture, _tab_id, _active,_text,_text_font);
+		elements.PushBack(ret);
+		return ret;
+	}
+	else
+		return nullptr;
+	
+	
+	
 }
 UI_Element* j1Gui::Destroy_Element(uint id)
 {
@@ -87,7 +116,7 @@ UI_Element* j1Gui::Destroy_Element(uint id)
 
 //---Interactive_element functions----------------
 
-bool Interactive_element::IsOnTop()
+bool UI_Interactive_element::IsOnTop()
 {
 	bool ret = false;
 	iPoint mouse;
@@ -100,7 +129,7 @@ bool Interactive_element::IsOnTop()
 	return ret;
 }
 
-bool Interactive_element::RightClicked()
+bool UI_Interactive_element::RightClicked()
 {
 	bool ret = false;
 	if (IsOnTop() && App->input->GetMouseButtonDown(RI_MOUSE_RIGHT_BUTTON_DOWN));
@@ -108,7 +137,7 @@ bool Interactive_element::RightClicked()
 	return ret;
 }
 
-bool Interactive_element::LeftClicked()
+bool UI_Interactive_element::LeftClicked()
 {
 	bool ret = false;
 	if (IsOnTop() && App->input->GetMouseButtonDown(RI_MOUSE_LEFT_BUTTON_DOWN)==true);
@@ -116,7 +145,7 @@ bool Interactive_element::LeftClicked()
 	return ret;
 }
 
-void Interactive_element::Handle_Input()
+void UI_Interactive_element::Handle_Input()
 {
 	if (RightClicked())
 	{
@@ -146,7 +175,7 @@ void Interactive_element::Handle_Input()
 
 //---Updates-------------------
 
-void Label::Update()
+void UI_Label::Update()
 {
 	SDL_Texture* L = App->font->Print(text.GetString(), {255,255,255}, text_font);
 	App->render->Blit(L, 200, 300, &rect);
