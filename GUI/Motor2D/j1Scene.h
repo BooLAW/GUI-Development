@@ -2,10 +2,9 @@
 #define __j1SCENE_H__
 
 #include "j1Module.h"
+#include "j1Gui.h"
 
 struct SDL_Texture;
-class GuiImage;
-class GuiText;
 
 class j1Scene : public j1Module
 {
@@ -36,8 +35,7 @@ public:
 
 private:
 	SDL_Texture* debug_tex;
-	GuiImage* banner;
-	GuiText* text;
+	j1Gui* gui;
 };
 
 #endif // __j1SCENE_H__

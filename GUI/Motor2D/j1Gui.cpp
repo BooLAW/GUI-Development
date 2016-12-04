@@ -52,6 +52,12 @@ bool j1Gui::PostUpdate()
 bool j1Gui::CleanUp()
 {
 	LOG("Freeing GUI");
+	p2List_item<UI_Element*>* item;
+
+	for (item = elements.start; item; item = item->next)
+		RELEASE(item->data);
+
+	elements.clear();
 
 	return true;
 }
@@ -74,44 +80,56 @@ UI_Element* j1Gui::Create_Element(TYPE _type, iPoint _pos, SDL_Rect _rect, SDL_T
 	if (_type == BUTTON)
 	{
 		UI_Button* ret = new UI_Button(_type, _pos, _rect, _texture, _tab_id, _active);
-		elements.PushBack(ret);
+		elements.add(ret);
 		return ret;
 	}
 	else if (_type == WINDOW)
 	{
 		UI_Window* ret = new UI_Window(_type, _pos, _rect, _texture,_tab_id,_active);
-		elements.PushBack(ret);
+		elements.add(ret);
 		return ret;
 	}
 	else if (_type == BACKGROUND)
 	{
 		UI_Background* ret = new UI_Background(_type, _pos, _rect, _texture);
-		elements.PushBack(ret);
+		elements.add(ret);
 		return ret;
 	}
 	else if (_type == LABEL)
 	{
 		UI_Label* ret = new UI_Label(_type, _pos, _rect, _texture, _tab_id, _active,_text,_text_font);
-		elements.PushBack(ret);
+		elements.add(ret);
 		return ret;
+	}else
+		return nullptr;	
+}
+
+void UI_Element::SetPos(int x, int y)
+{
+	pos.x = x;
+	pos.y = y;
+}
+
+iPoint UI_Element::GetPos()const
+{
+	if (parent != nullptr)
+	{
+		//the position is set respect the parent, so:
+		return iPoint(pos.x + parent->pos.x, pos.y + parent->pos.y);
 	}
 	else
-		return nullptr;
-	
-	
-	
+	{
+		return iPoint(pos.x, pos.y);
+	}
 }
-UI_Element* j1Gui::Destroy_Element(uint id)
+void UI_Element::SetRect(SDL_Rect _rect)
 {
-	UI_Element* ret = nullptr;
-	
-	//if (id >= elements.Count())
-	//{
-	//	
-	//	 ret = elements[id];
-	//	 elements.Pop(elements[id]);
-	//}
-	return ret;
+	rect = _rect;
+}
+
+void UI_Element::SetParent(UI_Element* _parent)
+{
+	parent = _parent;
 }
 
 //---Interactive_element functions----------------

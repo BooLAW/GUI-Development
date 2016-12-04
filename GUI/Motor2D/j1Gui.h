@@ -5,6 +5,7 @@
 #include "p2SString.h"
 #include "p2DynArray.h"
 #include "j1Fonts.h"
+
 #define CURSOR_WIDTH 2
 
 enum TYPE{BACKGROUND,BUTTON,LABEL,WINDOW};
@@ -13,20 +14,29 @@ class UI_Element
 {
 public:
 	SDL_Rect rect;
-	uint id;
-	TYPE type;
 	iPoint pos;
 	SDL_Texture* texture;
-	bool debug_mode;
+	uint id;
+	TYPE type;
 	UI_Element* parent;
-	p2List<UI_Element*> linked_elements;
+	bool debug_mode;
 public: 
 	UI_Element(TYPE _type, iPoint _pos, SDL_Rect _rect, SDL_Texture* _texture) :type(_type), pos(_pos), rect(_rect), texture(_texture)
 	{
 	};
+	virtual ~UI_Element();
+
 	virtual void Update() ;
 	virtual void Draw() ;
 	virtual void Handle_Input() ;
+
+	//functional functions
+	void SetPos(int x, int y);
+	iPoint GetPos()const;
+
+	void SetRect(SDL_Rect _rect);
+
+	void SetParent(UI_Element* _parent);
 };
 
 //--------INTERACTIVE ELEMENTS-------
@@ -47,6 +57,7 @@ public:
 		hovering = r_clicked = l_clicked = moving = false;
 		tab_id = _tab_id;
 	};
+	virtual ~UI_Interactive_element();
 	void Handle_Input();
 	bool RightClicked() ;
 	bool LeftClicked();
@@ -61,6 +72,7 @@ public:
 	UI_Window(TYPE _type, iPoint _pos, SDL_Rect _rect, SDL_Texture* _texture, uint _tab_id, bool _active) :UI_Interactive_element(_type, _pos, _rect, _texture, _tab_id,_active)
 	{
 	}
+	virtual ~UI_Window();
 	void Update() ;
 	void Draw() ;
 	void Handle_Input() ;
@@ -72,6 +84,7 @@ public:
 	UI_Button(TYPE _type, iPoint _pos, SDL_Rect _rect, SDL_Texture* _texture, uint _tab_id, bool _active) :UI_Interactive_element(_type,_pos,_rect,_texture,_tab_id,_active)
 	{
 	};
+	virtual ~UI_Button();
 	void Draw() ;
 	void Update() ;
 	void Handle_Input() ;
@@ -87,13 +100,16 @@ public:
 	{
 		text_font = _text_font;
 		text.create(_text);
+		texture = App->font->Print(text.GetString());
 		bar_pos = 0;
 	};
+	virtual ~UI_Label();
 	void Change_Text(p2SString _text)
 	{
-		char* tmp = new char[_text.Length() + 1];
-		strcpy_s(tmp, _text.Length() + 1, _text.GetString());
-		text = tmp;
+		if (texture != NULL)
+			SDL_DestroyTexture(texture);
+
+		texture = App->font->Print(_text.GetString());
 	}
 public:
 	void Draw() ;
@@ -101,13 +117,13 @@ public:
 	void Handle_Input() ;	
 };
 
-class TextBox : public UI_Label {
+class UI_TextBox : public UI_Label {
 public:
 	uint bar_pos;
 	uint max_char;
 public:
-	/*TextBox() {
-	};*/
+	UI_TextBox();
+	virtual ~UI_TextBox();
 	void Draw();
 	void Update();
 	void Handle_Input();
@@ -149,11 +165,10 @@ public:
 
 	// Factory methods
 	UI_Element* Create_Element(TYPE _type, iPoint _pos, SDL_Rect _rect, SDL_Texture* _texture, uint _tab_id, bool _active, char* _text, _TTF_Font* _text_font);
-	UI_Element* Destroy_Element(uint id);
 
 	SDL_Texture* GetAtlas() const;
 	SDL_Texture* GetBackground() const;
-	p2DynArray<UI_Element*> elements;
+	p2List<UI_Element*> elements;
 private:
 
 	SDL_Texture* atlas;
@@ -163,5 +178,4 @@ private:
 	p2SString background_file_name;
 
 };
-
 #endif // __j1GUI_H__

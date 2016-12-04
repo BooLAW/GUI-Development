@@ -43,15 +43,15 @@ bool j1Scene::Start()
 	
 	debug_tex = App->tex->Load("maps/path2.png");
 	
-	UI_Window* screen = (UI_Window*)App->gui->Create_Element(WINDOW, { 0,0 }, {0,0,640,480}, App->gui->GetBackground(),NULL,false,nullptr,NULL);
+	UI_Window* screen = (UI_Window*)App->gui->Create_Element(WINDOW, { 0,0 }, {0,0,640,480}, App->gui->GetBackground(),-1,false,nullptr,nullptr);
 
-	//UI_Label* win1_title = (UI_Label*)App->gui->Create_Element();
+	//UI_Label* win1_title = (UI_Label*)App->gui->Create_Element(LABEL, {400,200},);
 
-//	UI_Label* button1_title = (UI_Label*)App->gui->Create_Element();
+	//UI_Label* button1_title = (UI_Label*)App->gui->Create_Element();
 
-	//UI_Button* button1 = (UI_Button*)App->gui->Create_Element(BUTTON);
+	UI_Button* button1 = (UI_Button*)App->gui->Create_Element(BUTTON, {400,200}, {},App->gui->GetAtlas(),1,false,"button 1",nullptr);
 
-	//UI_Window* win1 = (UI_Window*)App->gui->Create_Element(WINDOW);
+	UI_Window* win1 = (UI_Window*)App->gui->Create_Element(WINDOW, {350,150}, {},App->gui->GetAtlas(),2,false, "window 1",nullptr);
 	
 	//tree of GUI
 	/*button1_title->parent = button1;
@@ -104,15 +104,19 @@ bool j1Scene::PreUpdate()
 bool j1Scene::Update(float dt)
 {
 	// Gui ---
-	/*
-		Button
-			1. if leftclicked change the texture
-			2. if also moves, move him and his childs
-		Window
-			2.move its parents when use the mouse
-	*/
+	if (App->input->GetMouseButtonDown(SDL_BUTTON_LEFT) == true)
+	{
+		float speed = 67.0f;
+		int x, y;
+		App->input->GetMouseMotion(x, y);
+		App->render->camera.x += (int)(speed * float(x) * dt);
+		App->render->camera.y += (int)(speed * float(y) * dt);
+	}
 
 	
+
+
+
 	// -------
 	if(App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 		App->LoadGame("save_game.xml");
@@ -179,7 +183,6 @@ bool j1Scene::PostUpdate()
 bool j1Scene::CleanUp()
 {
 	LOG("Freeing scene");
-	for(int i=0;i<App->gui->elements.Count();i++)
-		App->gui->Destroy_Element(i);
+	
 	return true;
 }
