@@ -6,6 +6,9 @@
 #include "j1Fonts.h"
 #include "j1Input.h"
 #include "j1Gui.h"
+#include "UI_Element.h"
+#include "UI_Label.h"
+
 
 
 j1Gui::j1Gui() : j1Module()
@@ -103,35 +106,6 @@ UI_Element* j1Gui::Create_Element(TYPE _type, iPoint _pos, SDL_Rect _rect, SDL_T
 	}else
 		return nullptr;	
 }
-
-void UI_Element::SetPos(int x, int y)
-{
-	pos.x = x;
-	pos.y = y;
-}
-
-iPoint UI_Element::GetPos()const
-{
-	if (parent != nullptr)
-	{
-		//the position is set respect the parent, so:
-		return iPoint(pos.x + parent->pos.x, pos.y + parent->pos.y);
-	}
-	else
-	{
-		return iPoint(pos.x, pos.y);
-	}
-}
-void UI_Element::SetRect(SDL_Rect _rect)
-{
-	rect = _rect;
-}
-
-void UI_Element::SetParent(UI_Element* _parent)
-{
-	parent = _parent;
-}
-
 //---Interactive_element functions----------------
 
 bool UI_Interactive_element::IsOnTop()

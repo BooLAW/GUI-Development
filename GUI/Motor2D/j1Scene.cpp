@@ -10,6 +10,7 @@
 #include "j1PathFinding.h"
 #include "j1Gui.h"
 #include "j1Scene.h"
+#include "UI_Image.h"
 
 j1Scene::j1Scene() : j1Module()
 {
@@ -43,15 +44,19 @@ bool j1Scene::Start()
 	
 	debug_tex = App->tex->Load("maps/path2.png");
 	
-	UI_Window* screen = (UI_Window*)App->gui->Create_Element(WINDOW, { 0,0 }, {0,0,640,480}, App->gui->GetBackground(),-1,false,nullptr,nullptr);
+	UI_Image* background;
+	background->SetRect({ 0,0,800,800 });
+	background->SetPos(0, 0);
+	
+	//UI_Window* screen = (UI_Window*)App->gui->Create_Element(WINDOW, { 0,0 }, {0,0,640,480}, App->gui->GetBackground(),-1,false,nullptr,nullptr);
 
 	//UI_Label* win1_title = (UI_Label*)App->gui->Create_Element(LABEL, {400,200},);
 
 	//UI_Label* button1_title = (UI_Label*)App->gui->Create_Element();
 
-	UI_Button* button1 = (UI_Button*)App->gui->Create_Element(BUTTON, {400,200}, {},App->gui->GetAtlas(),1,false,"button 1",nullptr);
+	//UI_Button* button1 = (UI_Button*)App->gui->Create_Element(BUTTON, {400,200}, {},App->gui->GetAtlas(),1,false,"button 1",nullptr);
 
-	UI_Window* win1 = (UI_Window*)App->gui->Create_Element(WINDOW, {350,150}, {},App->gui->GetAtlas(),2,false, "window 1",nullptr);
+	//UI_Window* win1 = (UI_Window*)App->gui->Create_Element(WINDOW, {350,150}, {},App->gui->GetAtlas(),2,false, "window 1",nullptr);
 	
 	//tree of GUI
 	/*button1_title->parent = button1;

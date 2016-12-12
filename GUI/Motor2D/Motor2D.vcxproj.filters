@@ -52,9 +52,6 @@
     <ClCompile Include="j1Gui.cpp">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="UI_Manager.cpp">
-      <Filter>Desenvolupament  ========\Modules</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -126,8 +123,14 @@
     <ClInclude Include="j1Gui.h">
       <Filter>Desenvolupament  ========\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="UI_Manager.h">
-      <Filter>Desenvolupament  ========\Modules</Filter>
+    <ClInclude Include="UI_Element.h">
+      <Filter>Desenvolupament  ========\GUI elements</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Label.h">
+      <Filter>Desenvolupament  ========\GUI elements</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Image.h">
+      <Filter>Desenvolupament  ========\GUI elements</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +151,9 @@
     </Filter>
     <Filter Include="Desenvolupament  ========\Tools\PuguiXML">
       <UniqueIdentifier>{7cb78d67-17cc-45eb-af97-e2106becce7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Desenvolupament  ========\GUI elements">
+      <UniqueIdentifier>{47e9a518-30bc-4e71-9294-3130e82825c0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
