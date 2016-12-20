@@ -1,0 +1,24 @@
+atlas: gui/sf2.png
+
+Screen Size: 768, 579
+
+Background: { 970, 1844, 768, 579 }
+charsbox: {1209, 1935, 288, 191}
+
+1P select box blue: { 1485, 110, 72, 109 }
+1P select box grey blue: { 1485, 219, 72, 109 }
+2P select box red: { 1560, 110, 72, 109 }
+2P select box grey red: { 1560, 219, 72, 109 }
+
+face positions on screen: 24, 61
+face position 2nd player: 543, 61
+
+ryu face + name: {925, 605, 168, 279}
+honda face + name: {1093, 605, 168, 279}
+blanka face + name: {1261, 605, 168, 279}
+guile face + name: {1429, 605, 168, 279}
+
+honda face + name: {925, 884, 168, 279}
+chunli face + name: {1093, 884, 168, 279}
+zangief face + name: {1261, 884, 168, 279}
+dhalsim face + name: {1429, 884, 168, 279}
