@@ -56,10 +56,11 @@ bool j1Scene::Start()
 	P1_Sel->positions->PushBack(face_honda);
 	P1_Sel->positions->PushBack(face_blanka);
 	P1_Sel->positions->PushBack(face_guile);
+	P1_Sel->positions->PushBack(face_zangief);
 	P1_Sel->positions->PushBack(face_ken);
 	P1_Sel->positions->PushBack(face_chunli);
 	P1_Sel->positions->PushBack(face_dhalism);
-	P1_Sel->current_pos = 2;
+	P1_Sel->current_pos = 0;
 	P1_Sel->view = true;
 	
 
@@ -67,10 +68,11 @@ bool j1Scene::Start()
 	P2_Sel->positions->PushBack(face_honda);
 	P2_Sel->positions->PushBack(face_blanka);
 	P2_Sel->positions->PushBack(face_guile);
+	P2_Sel->positions->PushBack(face_zangief);
 	P2_Sel->positions->PushBack(face_ken);
 	P2_Sel->positions->PushBack(face_chunli);
 	P2_Sel->positions->PushBack(face_dhalism);
-	P2_Sel->current_pos = 5;
+	P2_Sel->current_pos = 4;
 	P2_Sel->view = true;
 
 

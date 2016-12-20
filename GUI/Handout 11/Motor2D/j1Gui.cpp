@@ -82,6 +82,7 @@ Element* j1Gui::Create_Element(const char* name, TYPE type, iPoint pos, SDL_Rect
 
 		if (type == WINDOW)
 			new_element = new Window(name, pos, texture, rect);
+
 		if(type == DYNAMICIMAGE)
 			new_element = new DynamicImage(name, pos, texture, rect);
 
